@@ -57,6 +57,7 @@ function generateExportStatements(project: Project, apiModels: APIModel[]) {
 }
 
 export function generateAPIClients(apiModels: APIModel[]): void {
+  log.info(`Starting generating api clients`)
   const compileAPIClient = template(apiClientTemplate)
   const project = new Project({
     tsConfigFilePath: TS_CONFIG_FILE_PATH,
@@ -75,4 +76,5 @@ export function generateAPIClients(apiModels: APIModel[]): void {
 
   generateExportStatements(project, apiModels)
   project.saveSync()
+  log.info(`Finished generating api clients`)
 }

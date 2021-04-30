@@ -33,7 +33,7 @@ async function generateModels() {
     await Promise.all(apiModels.map(removeRedundantObjects))
     const statements: string[] = await Promise.all(apiModels.map(generateExportStatement))
     writeStatementsToFile(statements)
-    await Promise.all(mapEnums2UnionType())
+//     await Promise.all(mapEnums2UnionType())
     generateAPIClients(apiModels)
   }
 }

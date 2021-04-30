@@ -34,7 +34,7 @@ async function generateModels() {
     const statements: string[] = await Promise.all(apiModels.map(generateExportStatement))
     writeStatementsToFile(statements)
     await Promise.all(mapEnums2UnionType())
-//     generateAPIClients(apiModels)
+     generateAPIClients(apiModels)
   }
 }
 

@@ -60,6 +60,7 @@ export function generateAPIClients(apiModels: APIModel[]): void {
   const compileAPIClient = template(apiClientTemplate)
   const project = new Project({
     tsConfigFilePath: TS_CONFIG_FILE_PATH,
+    libFolderPath: "../../node_modules/typescript/lib",
   })
   for (const apiModel of apiModels) {
     const apiClientFileName = generateAPIClientFileName(apiModel)

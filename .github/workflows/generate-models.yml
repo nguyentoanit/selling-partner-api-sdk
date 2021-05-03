@@ -23,6 +23,12 @@ jobs:
       - name: Install
         uses: bahmutov/npm-install@v1
 
+      - name: Install Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt' # See 'Supported distributions' for available options
+          java-version: '11'
+
       - name: Generate API models
         id: generate
         run: npm run generate-models

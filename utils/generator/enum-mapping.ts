@@ -70,7 +70,7 @@ function processArrayNodes(sourceFile: SourceFile, nodes: TypeElementTypes[]): v
 export function mapEnums2UnionType(): Promise<void>[] {
   const project = new Project({
     tsConfigFilePath: TS_CONFIG_FILE_PATH,
-    libFolderPath: "../../node_modules/typescript/lib",
+    libFolderPath: "node_modules/typescript/lib",
   })
 
   return project.getSourceFiles(`src/api-models/**/${API_MODEL_FILE_NAME}`).map((sourceFile) => {

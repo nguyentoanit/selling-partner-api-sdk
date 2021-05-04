@@ -9,7 +9,7 @@ import {
   writeStatementsToFile,
 } from './utils/generator/api-model-generator'
 import { mapEnums2UnionType } from './utils/generator/enum-mapping'
-import { APIModel, fetchContentsByPath, hasNewCommits } from './utils/github/github-api'
+import { fetchContentsByPath, hasNewCommits } from './utils/github/github-api'
 
 async function generateModels() {
   if (await hasNewCommits()) {
@@ -26,15 +26,16 @@ async function generateModels() {
     )
 
     const githubFiles = await Promise.all(githubFilePromises)
+    const apiModels = githubFiles.map(generateAPIModel)
 
-    const apiModelGeneratorPromises = githubFiles.map(generateAPIModel).map(executeGeneratorCLI)
-
-    const apiModels = await Promise.all<APIModel>(apiModelGeneratorPromises)
+    for (const model of apiModels) {
+      await executeGeneratorCLI(model)
+    }
     await Promise.all(apiModels.map(removeRedundantObjects))
     const statements: string[] = await Promise.all(apiModels.map(generateExportStatement))
     writeStatementsToFile(statements)
     await Promise.all(mapEnums2UnionType())
-     generateAPIClients(apiModels)
+    generateAPIClients(apiModels)
   }
 }
 

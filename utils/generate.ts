@@ -51,7 +51,7 @@ async function generateModels(rootPath: string) {
   const statements: string[] = await Promise.all(models.map(generateExportStatement))
   writeStatementsToFile(statements)
 
-  await Promise.all(mapEnums2UnionType())
+  // await Promise.all(mapEnums2UnionType())
   generateAPIClients(models)
 }
 

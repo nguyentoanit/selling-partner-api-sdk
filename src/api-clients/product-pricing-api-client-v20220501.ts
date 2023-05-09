@@ -1,14 +1,9 @@
-import {
-  ApprovalsApi,
-  Configuration,
-  OrdersV0Api,
-  ShipmentApi,
-} from '../api-models/orders-api-model'
-import { ApiClientHelpers, applyMixins } from '../helpers'
+import { Configuration, ProductPricingApi } from '../api-models/product-pricing-api-model-v20220501'
+import { ApiClientHelpers } from '../helpers'
 import { DEFAULT_API_BASE_PATH } from '../types'
 import { APIConfigurationParameters } from '../types/api-clients/api-configuration-parameters'
 
-export class OrdersApiClient extends ApprovalsApi {
+export class ProductPricingApiClientV20220501 extends ProductPricingApi {
   constructor(parameters: APIConfigurationParameters) {
     const axios = ApiClientHelpers.getAxiosInstance(parameters)
 
@@ -17,6 +12,3 @@ export class OrdersApiClient extends ApprovalsApi {
     super(configuration, DEFAULT_API_BASE_PATH, axios)
   }
 }
-
-export interface OrdersApiClient extends ApprovalsApi, OrdersV0Api, ShipmentApi {}
-applyMixins(OrdersApiClient, [ApprovalsApi, OrdersV0Api, ShipmentApi])

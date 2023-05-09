@@ -63,7 +63,7 @@ export interface ItemEligibilityPreview {
      * @type {string}
      * @memberof ItemEligibilityPreview
      */
-    program: ItemEligibilityPreviewProgramEnum | 'INBOUND' | 'COMMINGLING';
+    program: ItemEligibilityPreviewProgramEnum;
     /**
      * Indicates if the item is eligible for the program.
      * @type {boolean}
@@ -75,7 +75,7 @@ export interface ItemEligibilityPreview {
      * @type {Array<string>}
      * @memberof ItemEligibilityPreview
      */
-    ineligibilityReasonList?: Array<(ItemEligibilityPreviewIneligibilityReasonListEnum | 'FBA_INB_0004' | 'FBA_INB_0006' | 'FBA_INB_0007' | 'FBA_INB_0008' | 'FBA_INB_0009' | 'FBA_INB_0010' | 'FBA_INB_0011' | 'FBA_INB_0012' | 'FBA_INB_0013' | 'FBA_INB_0014' | 'FBA_INB_0015' | 'FBA_INB_0016' | 'FBA_INB_0017' | 'FBA_INB_0018' | 'FBA_INB_0019' | 'FBA_INB_0034' | 'FBA_INB_0035' | 'FBA_INB_0036' | 'FBA_INB_0037' | 'FBA_INB_0038' | 'FBA_INB_0050' | 'FBA_INB_0051' | 'FBA_INB_0053' | 'FBA_INB_0055' | 'FBA_INB_0056' | 'FBA_INB_0059' | 'FBA_INB_0065' | 'FBA_INB_0066' | 'FBA_INB_0067' | 'FBA_INB_0068' | 'FBA_INB_0095' | 'FBA_INB_0097' | 'FBA_INB_0098' | 'FBA_INB_0099' | 'FBA_INB_0100' | 'FBA_INB_0103' | 'FBA_INB_0104' | 'FBA_INB_0197' | 'UNKNOWN_INB_ERROR_CODE')>;
+    ineligibilityReasonList?: Array<ItemEligibilityPreviewIneligibilityReasonListEnum>;
 }
 
 /**
@@ -165,7 +165,7 @@ export interface ModelError {
 export const FbaInboundApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * This operation gets an eligibility preview for an item that you specify. You can specify the type of eligibility preview that you want (INBOUND or COMMINGLING). For INBOUND previews, you can specify the marketplace in which you want to determine the item\'s eligibility.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * This operation gets an eligibility preview for an item that you specify. You can specify the type of eligibility preview that you want (INBOUND or COMMINGLING). For INBOUND previews, you can specify the marketplace in which you want to determine the item\'s eligibility.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} asin The ASIN of the item for which you want an eligibility preview.
          * @param {'INBOUND' | 'COMMINGLING'} program The program that you want to check eligibility against.
          * @param {Array<string>} [marketplaceIds] The identifier for the marketplace in which you want to determine eligibility. Required only when program&#x3D;INBOUND.
@@ -223,7 +223,7 @@ export const FbaInboundApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = FbaInboundApiAxiosParamCreator(configuration)
     return {
         /**
-         * This operation gets an eligibility preview for an item that you specify. You can specify the type of eligibility preview that you want (INBOUND or COMMINGLING). For INBOUND previews, you can specify the marketplace in which you want to determine the item\'s eligibility.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * This operation gets an eligibility preview for an item that you specify. You can specify the type of eligibility preview that you want (INBOUND or COMMINGLING). For INBOUND previews, you can specify the marketplace in which you want to determine the item\'s eligibility.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} asin The ASIN of the item for which you want an eligibility preview.
          * @param {'INBOUND' | 'COMMINGLING'} program The program that you want to check eligibility against.
          * @param {Array<string>} [marketplaceIds] The identifier for the marketplace in which you want to determine eligibility. Required only when program&#x3D;INBOUND.
@@ -245,7 +245,7 @@ export const FbaInboundApiFactory = function (configuration?: Configuration, bas
     const localVarFp = FbaInboundApiFp(configuration)
     return {
         /**
-         * This operation gets an eligibility preview for an item that you specify. You can specify the type of eligibility preview that you want (INBOUND or COMMINGLING). For INBOUND previews, you can specify the marketplace in which you want to determine the item\'s eligibility.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * This operation gets an eligibility preview for an item that you specify. You can specify the type of eligibility preview that you want (INBOUND or COMMINGLING). For INBOUND previews, you can specify the marketplace in which you want to determine the item\'s eligibility.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} asin The ASIN of the item for which you want an eligibility preview.
          * @param {'INBOUND' | 'COMMINGLING'} program The program that you want to check eligibility against.
          * @param {Array<string>} [marketplaceIds] The identifier for the marketplace in which you want to determine eligibility. Required only when program&#x3D;INBOUND.
@@ -294,7 +294,7 @@ export interface FbaInboundApiGetItemEligibilityPreviewRequest {
  */
 export class FbaInboundApi extends BaseAPI {
     /**
-     * This operation gets an eligibility preview for an item that you specify. You can specify the type of eligibility preview that you want (INBOUND or COMMINGLING). For INBOUND previews, you can specify the marketplace in which you want to determine the item\'s eligibility.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+     * This operation gets an eligibility preview for an item that you specify. You can specify the type of eligibility preview that you want (INBOUND or COMMINGLING). For INBOUND previews, you can specify the marketplace in which you want to determine the item\'s eligibility.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 1 | 1 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {FbaInboundApiGetItemEligibilityPreviewRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

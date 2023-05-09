@@ -120,6 +120,19 @@ export interface Address {
     phone?: string;
 }
 /**
+ * 
+ * @export
+ * @interface BuyerCustomizedInfoDetail
+ */
+export interface BuyerCustomizedInfoDetail {
+    /**
+     * A [Base 64](https://datatracker.ietf.org/doc/html/rfc4648#section-4) encoded URL using the UTF-8 character set. The URL provides the location of the zip file that specifies the types of customizations or configurations allowed by the vendor, along with types and ranges for the attributes of their products.
+     * @type {string}
+     * @memberof BuyerCustomizedInfoDetail
+     */
+    customizedUrl?: string;
+}
+/**
  * A list of error responses returned when a request is unsuccessful.
  * @export
  * @interface ErrorList
@@ -168,7 +181,7 @@ export interface ItemQuantity {
      * @type {string}
      * @memberof ItemQuantity
      */
-    unitOfMeasure?: ItemQuantityUnitOfMeasureEnum | 'Each';
+    unitOfMeasure?: ItemQuantityUnitOfMeasureEnum;
 }
 
 /**
@@ -314,7 +327,7 @@ export interface OrderDetails {
      * @type {string}
      * @memberof OrderDetails
      */
-    orderStatus?: OrderDetailsOrderStatusEnum | 'NEW' | 'SHIPPED' | 'ACCEPTED' | 'CANCELLED';
+    orderStatus?: OrderDetailsOrderStatusEnum;
     /**
      * 
      * @type {ShipmentDetails}
@@ -436,6 +449,12 @@ export interface OrderItem {
      * @memberof OrderItem
      */
     totalPrice?: Money;
+    /**
+     * 
+     * @type {BuyerCustomizedInfoDetail}
+     * @memberof OrderItem
+     */
+    buyerCustomizedInfo?: BuyerCustomizedInfoDetail;
 }
 /**
  * 
@@ -679,7 +698,7 @@ export interface TaxDetails {
      * @type {string}
      * @memberof TaxDetails
      */
-    type?: TaxDetailsTypeEnum | 'CONSUMPTION' | 'GST' | 'MwSt.' | 'PST' | 'TOTAL' | 'TVA' | 'VAT';
+    type?: TaxDetailsTypeEnum;
 }
 
 /**
@@ -720,7 +739,7 @@ export interface TaxRegistrationDetails {
      * @type {string}
      * @memberof TaxRegistrationDetails
      */
-    taxRegistrationType?: TaxRegistrationDetailsTaxRegistrationTypeEnum | 'VAT' | 'GST';
+    taxRegistrationType?: TaxRegistrationDetailsTaxRegistrationTypeEnum;
     /**
      * Tax registration number for the party. For example, VAT ID.
      * @type {string}

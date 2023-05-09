@@ -32,7 +32,7 @@ export interface AdditionalDetails {
      * @type {string}
      * @memberof AdditionalDetails
      */
-    type: AdditionalDetailsTypeEnum | 'SUR' | 'OCR' | 'CartonCount';
+    type: AdditionalDetailsTypeEnum;
     /**
      * The detail of the additional information provided by the selling party.
      * @type {string}
@@ -141,7 +141,7 @@ export interface AllowanceDetails {
      * @type {string}
      * @memberof AllowanceDetails
      */
-    type: AllowanceDetailsTypeEnum | 'Discount' | 'DiscountIncentive' | 'Defective' | 'Promotional' | 'UnsaleableMerchandise' | 'Special';
+    type: AllowanceDetailsTypeEnum;
     /**
      * Description of the allowance.
      * @type {string}
@@ -186,7 +186,7 @@ export interface ChargeDetails {
      * @type {string}
      * @memberof ChargeDetails
      */
-    type: ChargeDetailsTypeEnum | 'Freight' | 'Packing' | 'Duty' | 'Service' | 'SmallOrder' | 'InsurancePlacementCost' | 'InsuranceFee' | 'SpecialHandlingService' | 'CollectionAndRecyclingService' | 'EnvironmentalProtectionService' | 'TaxCollectedAtSource';
+    type: ChargeDetailsTypeEnum;
     /**
      * Description of the charge.
      * @type {string}
@@ -285,7 +285,7 @@ export interface Invoice {
      * @type {string}
      * @memberof Invoice
      */
-    invoiceType: InvoiceInvoiceTypeEnum | 'Invoice' | 'CreditNote';
+    invoiceType: InvoiceInvoiceTypeEnum;
     /**
      * Unique number relating to the charges defined in this document. This will be invoice number if the document type is Invoice or CreditNote number if the document type is Credit Note. Failure to provide this reference will result in a rejection.
      * @type {string}
@@ -471,7 +471,7 @@ export interface ItemQuantity {
      * @type {string}
      * @memberof ItemQuantity
      */
-    unitOfMeasure: ItemQuantityUnitOfMeasureEnum | 'Cases' | 'Eaches';
+    unitOfMeasure: ItemQuantityUnitOfMeasureEnum;
     /**
      * The case size, if the unit of measure value is Cases.
      * @type {number}
@@ -569,7 +569,7 @@ export interface PaymentTerms {
      * @type {string}
      * @memberof PaymentTerms
      */
-    type?: PaymentTermsTypeEnum | 'Basic' | 'EndOfMonth' | 'FixedDate' | 'Proximo' | 'PaymentDueUponReceiptOfInvoice' | 'LetterofCredit';
+    type?: PaymentTermsTypeEnum;
     /**
      * A decimal number with no loss of precision. Useful when precision loss is unacceptable, as with currencies. Follows RFC7159 for number representation. <br>**Pattern** : `^-?(0|([1-9]\\d*))(\\.\\d+)?([eE][+-]?\\d+)?$`.
      * @type {string}
@@ -646,7 +646,7 @@ export interface TaxDetails {
      * @type {string}
      * @memberof TaxDetails
      */
-    taxType: TaxDetailsTaxTypeEnum | 'CGST' | 'SGST' | 'CESS' | 'UTGST' | 'IGST' | 'MwSt.' | 'PST' | 'TVA' | 'VAT' | 'GST' | 'ST' | 'Consumption' | 'MutuallyDefined' | 'DomesticVAT';
+    taxType: TaxDetailsTaxTypeEnum;
     /**
      * A decimal number with no loss of precision. Useful when precision loss is unacceptable, as with currencies. Follows RFC7159 for number representation. <br>**Pattern** : `^-?(0|([1-9]\\d*))(\\.\\d+)?([eE][+-]?\\d+)?$`.
      * @type {string}
@@ -699,7 +699,7 @@ export interface TaxRegistrationDetails {
      * @type {string}
      * @memberof TaxRegistrationDetails
      */
-    taxRegistrationType: TaxRegistrationDetailsTaxRegistrationTypeEnum | 'VAT' | 'GST';
+    taxRegistrationType: TaxRegistrationDetailsTaxRegistrationTypeEnum;
     /**
      * The tax registration number for the entity. For example, VAT ID.
      * @type {string}
@@ -738,7 +738,7 @@ export interface TransactionId {
 export const VendorPaymentsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * Submit new invoices to Amazon.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Submit new invoices to Amazon.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {SubmitInvoicesRequest} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -783,7 +783,7 @@ export const VendorPaymentsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = VendorPaymentsApiAxiosParamCreator(configuration)
     return {
         /**
-         * Submit new invoices to Amazon.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Submit new invoices to Amazon.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {SubmitInvoicesRequest} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -803,7 +803,7 @@ export const VendorPaymentsApiFactory = function (configuration?: Configuration,
     const localVarFp = VendorPaymentsApiFp(configuration)
     return {
         /**
-         * Submit new invoices to Amazon.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * Submit new invoices to Amazon.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
          * @param {SubmitInvoicesRequest} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -836,7 +836,7 @@ export interface VendorPaymentsApiSubmitInvoicesRequest {
  */
 export class VendorPaymentsApi extends BaseAPI {
     /**
-     * Submit new invoices to Amazon.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 10 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+     * Submit new invoices to Amazon.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 10 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).
      * @param {VendorPaymentsApiSubmitInvoicesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

@@ -104,7 +104,7 @@ export interface Address {
      * @type {string}
      * @memberof Address
      */
-    AddressType?: AddressAddressTypeEnum | 'Residential' | 'Commercial';
+    AddressType?: AddressAddressTypeEnum;
 }
 
 /**
@@ -116,6 +116,25 @@ export enum AddressAddressTypeEnum {
     Commercial = 'Commercial'
 }
 
+/**
+ * <Name, Value> tuple to define item approval support data elements.
+ * @export
+ * @interface ApprovalSupportDataElement
+ */
+export interface ApprovalSupportDataElement {
+    /**
+     * Name of the approval support element. Allowed names are defined in specific approval types schemas.
+     * @type {string}
+     * @memberof ApprovalSupportDataElement
+     */
+    Name: string;
+    /**
+     * String value of the approval support element.
+     * @type {string}
+     * @memberof ApprovalSupportDataElement
+     */
+    Value: string;
+}
 /**
  * Contains information regarding the Shipping Settings Automation program, such as whether the order\'s shipping settings were generated automatically, and what those settings are.
  * @export
@@ -141,6 +160,40 @@ export interface AutomatedShippingSettings {
      */
     AutomatedShipMethod?: string;
 }
+/**
+ * Business days and hours when the destination is open for deliveries.
+ * @export
+ * @interface BusinessHours
+ */
+export interface BusinessHours {
+    /**
+     * Day of the week.
+     * @type {string}
+     * @memberof BusinessHours
+     */
+    DayOfWeek?: BusinessHoursDayOfWeekEnum;
+    /**
+     * Time window during the day when the business is open.
+     * @type {Array<OpenInterval>}
+     * @memberof BusinessHours
+     */
+    OpenIntervals?: Array<OpenInterval>;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum BusinessHoursDayOfWeekEnum {
+    Sun = 'SUN',
+    Mon = 'MON',
+    Tue = 'TUE',
+    Wed = 'WED',
+    Thu = 'THU',
+    Fri = 'FRI',
+    Sat = 'SAT'
+}
+
 /**
  * Buyer information for custom orders from the Amazon Custom program.
  * @export
@@ -267,6 +320,109 @@ export interface BuyerTaxInformation {
     BuyerTaxOffice?: string;
 }
 /**
+ * The error response schema for an shipment confirmation.
+ * @export
+ * @interface ConfirmShipmentErrorResponse
+ */
+export interface ConfirmShipmentErrorResponse {
+    /**
+     * A list of error responses returned when a request is unsuccessful.
+     * @type {Array<Error>}
+     * @memberof ConfirmShipmentErrorResponse
+     */
+    errors?: Array<Error>;
+}
+/**
+ * A single order item.
+ * @export
+ * @interface ConfirmShipmentOrderItem
+ */
+export interface ConfirmShipmentOrderItem {
+    /**
+     * The unique identifier of the order item.
+     * @type {string}
+     * @memberof ConfirmShipmentOrderItem
+     */
+    orderItemId: string;
+    /**
+     * The quantity of the item.
+     * @type {number}
+     * @memberof ConfirmShipmentOrderItem
+     */
+    quantity: number;
+    /**
+     * A list of order items.
+     * @type {Array<string>}
+     * @memberof ConfirmShipmentOrderItem
+     */
+    transparencyCodes?: Array<string>;
+}
+/**
+ * The request schema for an shipment confirmation.
+ * @export
+ * @interface ConfirmShipmentRequest
+ */
+export interface ConfirmShipmentRequest {
+    /**
+     * 
+     * @type {PackageDetail}
+     * @memberof ConfirmShipmentRequest
+     */
+    packageDetail: PackageDetail;
+    /**
+     * The cod collection method, support in JP only. 
+     * @type {string}
+     * @memberof ConfirmShipmentRequest
+     */
+    codCollectionMethod?: ConfirmShipmentRequestCodCollectionMethodEnum;
+    /**
+     * The unobfuscated marketplace identifier.
+     * @type {string}
+     * @memberof ConfirmShipmentRequest
+     */
+    marketplaceId: string;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum ConfirmShipmentRequestCodCollectionMethodEnum {
+    DirectPayment = 'DirectPayment'
+}
+
+/**
+ * Contains all of the delivery instructions provided by the customer for the shipping address.
+ * @export
+ * @interface DeliveryPreferences
+ */
+export interface DeliveryPreferences {
+    /**
+     * Drop-off location selected by the customer.
+     * @type {string}
+     * @memberof DeliveryPreferences
+     */
+    DropOffLocation?: string;
+    /**
+     * 
+     * @type {PreferredDeliveryTime}
+     * @memberof DeliveryPreferences
+     */
+    PreferredDeliveryTime?: PreferredDeliveryTime;
+    /**
+     * Enumerated list of miscellaneous delivery attributes associated with the shipping address.
+     * @type {Array<OtherDeliveryAttributes>}
+     * @memberof DeliveryPreferences
+     */
+    OtherAttributes?: Array<OtherDeliveryAttributes>;
+    /**
+     * Building instructions, nearby landmark or navigation instructions.
+     * @type {string}
+     * @memberof DeliveryPreferences
+     */
+    AddressInstructions?: string;
+}
+/**
  * The status of the Amazon Easy Ship order. This property is included only for Amazon Easy Ship orders.
  * @export
  * @enum {string}
@@ -304,6 +460,31 @@ export enum ElectronicInvoiceStatus {
 }
 
 /**
+ * Dates when the business is closed or open with a different time window.
+ * @export
+ * @interface ExceptionDates
+ */
+export interface ExceptionDates {
+    /**
+     * Date when the business is closed, in ISO-8601 date format.
+     * @type {string}
+     * @memberof ExceptionDates
+     */
+    ExceptionDate?: string;
+    /**
+     * Boolean indicating if the business is closed or open on that date.
+     * @type {boolean}
+     * @memberof ExceptionDates
+     */
+    IsOpen?: boolean;
+    /**
+     * Time window during the day when the business is open.
+     * @type {Array<OpenInterval>}
+     * @memberof ExceptionDates
+     */
+    OpenIntervals?: Array<OpenInterval>;
+}
+/**
  * Contains the instructions about the fulfillment like where should it be fulfilled from.
  * @export
  * @interface FulfillmentInstruction
@@ -332,6 +513,25 @@ export interface GetOrderAddressResponse {
      * A list of error responses returned when a request is unsuccessful.
      * @type {Array<Error>}
      * @memberof GetOrderAddressResponse
+     */
+    errors?: Array<Error>;
+}
+/**
+ * The response schema for the getOrderApprovalsItems operation.
+ * @export
+ * @interface GetOrderApprovalsResponse
+ */
+export interface GetOrderApprovalsResponse {
+    /**
+     * 
+     * @type {OrderApprovalsResponse}
+     * @memberof GetOrderApprovalsResponse
+     */
+    payload?: OrderApprovalsResponse;
+    /**
+     * A list of error responses returned when a request is unsuccessful.
+     * @type {Array<Error>}
+     * @memberof GetOrderApprovalsResponse
      */
     errors?: Array<Error>;
 }
@@ -450,6 +650,183 @@ export interface GetOrdersResponse {
     errors?: Array<Error>;
 }
 /**
+ * Generic item approval. Check the applicable restrictions at the specific approval type schemas.
+ * @export
+ * @interface ItemApproval
+ */
+export interface ItemApproval {
+    /**
+     * Sequence number of the item approval. Each ItemApproval gets its sequenceId automatically from a monotonic increasing function.
+     * @type {number}
+     * @memberof ItemApproval
+     */
+    SequenceId: number;
+    /**
+     * Timestamp when the ItemApproval was recorded by Amazon\'s internal order approvals system. In ISO 8601 date time format.
+     * @type {string}
+     * @memberof ItemApproval
+     */
+    Timestamp: string;
+    /**
+     * High level actors involved in the approval process.
+     * @type {string}
+     * @memberof ItemApproval
+     */
+    Actor: ItemApprovalActorEnum;
+    /**
+     * Person or system that triggers the approval actions on behalf of the actor.
+     * @type {string}
+     * @memberof ItemApproval
+     */
+    Approver?: string;
+    /**
+     * 
+     * @type {ItemApprovalAction}
+     * @memberof ItemApproval
+     */
+    ApprovalAction: ItemApprovalAction;
+    /**
+     * Status of approval action.
+     * @type {string}
+     * @memberof ItemApproval
+     */
+    ApprovalActionProcessStatus: ItemApprovalApprovalActionProcessStatusEnum;
+    /**
+     * Optional message to communicate optional additional context about the current status of the approval action.
+     * @type {string}
+     * @memberof ItemApproval
+     */
+    ApprovalActionProcessStatusMessage?: string;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum ItemApprovalActorEnum {
+    SellingPartner = 'SELLING_PARTNER',
+    Amazon = 'AMAZON'
+}
+/**
+    * @export
+    * @enum {string}
+    */
+export enum ItemApprovalApprovalActionProcessStatusEnum {
+    Processing = 'PROCESSING',
+    Success = 'SUCCESS',
+    Error = 'ERROR'
+}
+
+/**
+ * This object represents an approval action used by the actors in the order item approval process. Check the applicable restrictions at the specific approval type schemas.
+ * @export
+ * @interface ItemApprovalAction
+ */
+export interface ItemApprovalAction {
+    /**
+     * Defines the type of action for the approval.
+     * @type {string}
+     * @memberof ItemApprovalAction
+     */
+    ActionType: ItemApprovalActionActionTypeEnum;
+    /**
+     * Comment message to provide optional additional context on the approval action.
+     * @type {string}
+     * @memberof ItemApprovalAction
+     */
+    Comment?: string;
+    /**
+     * 
+     * @type {ItemApprovalActionChanges}
+     * @memberof ItemApprovalAction
+     */
+    Changes?: ItemApprovalActionChanges;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum ItemApprovalActionActionTypeEnum {
+    Approve = 'APPROVE',
+    Decline = 'DECLINE',
+    ApproveWithChanges = 'APPROVE_WITH_CHANGES'
+}
+
+/**
+ * Changes required for the approval. Each approval type defines the allowed changes valid sub-set in its specific schema.
+ * @export
+ * @interface ItemApprovalActionChanges
+ */
+export interface ItemApprovalActionChanges {
+    /**
+     * 
+     * @type {Money}
+     * @memberof ItemApprovalActionChanges
+     */
+    ItemPrice?: Money;
+    /**
+     * Quantity approved. If substitutedBy is specified, this value applies to the substitution item.
+     * @type {number}
+     * @memberof ItemApprovalActionChanges
+     */
+    Quantity?: number;
+    /**
+     * 
+     * @type {ItemIdentifier}
+     * @memberof ItemApprovalActionChanges
+     */
+    SubstitutedBy?: ItemIdentifier;
+}
+/**
+ * Generic item approval context. Check the applicable restrictions at the specific approval type schemas.
+ * @export
+ * @interface ItemApprovalContext
+ */
+export interface ItemApprovalContext {
+    /**
+     * 
+     * @type {ItemApprovalType}
+     * @memberof ItemApprovalContext
+     */
+    ApprovalType: ItemApprovalType;
+    /**
+     * 
+     * @type {ItemApprovalStatus}
+     * @memberof ItemApprovalContext
+     */
+    ApprovalStatus: ItemApprovalStatus;
+    /**
+     * List of additional data elements supporting the approval process. Check the applicable restrictions at the specific approval type schemas.
+     * @type {Array<ApprovalSupportDataElement>}
+     * @memberof ItemApprovalContext
+     */
+    ApprovalSupportData?: Array<ApprovalSupportDataElement>;
+}
+/**
+ * Defines the possible status of an order item approval.
+ * @export
+ * @enum {string}
+ */
+export enum ItemApprovalStatus {
+    PendingSellingPartnerApproval = 'PENDING_SELLING_PARTNER_APPROVAL',
+    ProcessingSellingPartnerApproval = 'PROCESSING_SELLING_PARTNER_APPROVAL',
+    PendingAmazonApproval = 'PENDING_AMAZON_APPROVAL',
+    Approved = 'APPROVED',
+    ApprovedWithChanges = 'APPROVED_WITH_CHANGES',
+    Declined = 'DECLINED'
+}
+
+/**
+ * Defines the approval process types available for order items.
+ * @export
+ * @enum {string}
+ */
+export enum ItemApprovalType {
+    LeonardiApproval = 'LEONARDI_APPROVAL'
+}
+
+/**
  * A single item\'s buyer information.
  * @export
  * @interface ItemBuyerInfo
@@ -486,6 +863,36 @@ export interface ItemBuyerInfo {
      */
     GiftWrapLevel?: string;
 }
+/**
+ * Item identifiers used in the context of approvals operations.
+ * @export
+ * @interface ItemIdentifier
+ */
+export interface ItemIdentifier {
+    /**
+     * Defines the type of identifiers allowed to specify a substitution.
+     * @type {string}
+     * @memberof ItemIdentifier
+     */
+    IdentifierType: ItemIdentifierIdentifierTypeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof ItemIdentifier
+     */
+    Identifier: string;
+}
+
+/**
+    * @export
+    * @enum {string}
+    */
+export enum ItemIdentifierIdentifierTypeEnum {
+    Asin = 'ASIN',
+    SellerSku = 'SELLER_SKU',
+    ExternalId = 'EXTERNAL_ID'
+}
+
 /**
  * Tax information about the marketplace.
  * @export
@@ -544,6 +951,44 @@ export interface Money {
     Amount?: string;
 }
 /**
+ * The time interval for which the business is open.
+ * @export
+ * @interface OpenInterval
+ */
+export interface OpenInterval {
+    /**
+     * 
+     * @type {OpenTimeInterval}
+     * @memberof OpenInterval
+     */
+    StartTime?: OpenTimeInterval;
+    /**
+     * 
+     * @type {OpenTimeInterval}
+     * @memberof OpenInterval
+     */
+    EndTime?: OpenTimeInterval;
+}
+/**
+ * The time when the business opens or closes.
+ * @export
+ * @interface OpenTimeInterval
+ */
+export interface OpenTimeInterval {
+    /**
+     * The hour when the business opens or closes.
+     * @type {number}
+     * @memberof OpenTimeInterval
+     */
+    Hour?: number;
+    /**
+     * The minute when the business opens or closes.
+     * @type {number}
+     * @memberof OpenTimeInterval
+     */
+    Minute?: number;
+}
+/**
  * Order information.
  * @export
  * @interface Order
@@ -578,13 +1023,13 @@ export interface Order {
      * @type {string}
      * @memberof Order
      */
-    OrderStatus: OrderOrderStatusEnum | 'Pending' | 'Unshipped' | 'PartiallyShipped' | 'Shipped' | 'Canceled' | 'Unfulfillable' | 'InvoiceUnconfirmed' | 'PendingAvailability';
+    OrderStatus: OrderOrderStatusEnum;
     /**
      * Whether the order was fulfilled by Amazon (AFN) or by the seller (MFN).
      * @type {string}
      * @memberof Order
      */
-    FulfillmentChannel?: OrderFulfillmentChannelEnum | 'MFN' | 'AFN';
+    FulfillmentChannel?: OrderFulfillmentChannelEnum;
     /**
      * The sales channel of the first item in the order.
      * @type {string}
@@ -632,7 +1077,7 @@ export interface Order {
      * @type {string}
      * @memberof Order
      */
-    PaymentMethod?: OrderPaymentMethodEnum | 'COD' | 'CVS' | 'Other';
+    PaymentMethod?: OrderPaymentMethodEnum;
     /**
      * A list of payment method detail items.
      * @type {Array<string>}
@@ -656,7 +1101,7 @@ export interface Order {
      * @type {EasyShipShipmentStatus}
      * @memberof Order
      */
-    EasyShipShipmentStatus?: EasyShipShipmentStatus | 'PendingSchedule' | 'PendingPickUp' | 'PendingDropOff' | 'LabelCanceled' | 'PickedUp' | 'DroppedOff' | 'AtOriginFC' | 'AtDestinationFC' | 'Delivered' | 'RejectedByBuyer' | 'Undeliverable' | 'ReturningToSeller' | 'ReturnedToSeller' | 'Lost' | 'OutForDelivery' | 'Damaged';
+    EasyShipShipmentStatus?: EasyShipShipmentStatus;
     /**
      * Custom ship label for Checkout by Amazon (CBA).
      * @type {string}
@@ -668,7 +1113,7 @@ export interface Order {
      * @type {string}
      * @memberof Order
      */
-    OrderType?: OrderOrderTypeEnum | 'StandardOrder' | 'LongLeadTimeOrder' | 'Preorder' | 'BackOrder' | 'SourcingOnDemandOrder';
+    OrderType?: OrderOrderTypeEnum;
     /**
      * The start of the time period within which you have committed to ship the order. In ISO 8601 date time format. Returned only for seller-fulfilled orders.  __Note__: EarliestShipDate might not be returned for orders placed before February 1, 2013.
      * @type {string}
@@ -764,7 +1209,7 @@ export interface Order {
      * @type {string}
      * @memberof Order
      */
-    BuyerInvoicePreference?: OrderBuyerInvoicePreferenceEnum | 'INDIVIDUAL' | 'BUSINESS';
+    BuyerInvoicePreference?: OrderBuyerInvoicePreferenceEnum;
     /**
      * 
      * @type {BuyerTaxInformation}
@@ -830,7 +1275,19 @@ export interface Order {
      * @type {ElectronicInvoiceStatus}
      * @memberof Order
      */
-    ElectronicInvoiceStatus?: ElectronicInvoiceStatus | 'NotRequired' | 'NotFound' | 'Processing' | 'Errored' | 'Accepted';
+    ElectronicInvoiceStatus?: ElectronicInvoiceStatus;
+    /**
+     * Set of approval types which applies to at least one order item in the order.
+     * @type {Array<ItemApprovalType>}
+     * @memberof Order
+     */
+    ItemApprovalTypes?: Array<ItemApprovalType>;
+    /**
+     * Subset of all ItemApprovalStatus that are set in at least one of the order items subject to approvals.
+     * @type {Array<ItemApprovalStatus>}
+     * @memberof Order
+     */
+    ItemApprovalStatus?: Array<ItemApprovalStatus>;
 }
 
 /**
@@ -897,11 +1354,42 @@ export interface OrderAddress {
      */
     AmazonOrderId: string;
     /**
+     * Company name of the destination address.
+     * @type {string}
+     * @memberof OrderAddress
+     */
+    BuyerCompanyName?: string;
+    /**
      * 
      * @type {Address}
      * @memberof OrderAddress
      */
     ShippingAddress?: Address;
+    /**
+     * 
+     * @type {DeliveryPreferences}
+     * @memberof OrderAddress
+     */
+    DeliveryPreferences?: DeliveryPreferences;
+}
+/**
+ * The order items list with approvals along with the order ID.
+ * @export
+ * @interface OrderApprovalsResponse
+ */
+export interface OrderApprovalsResponse {
+    /**
+     * When present and not empty, pass this string token in the next request to return the next response page.
+     * @type {string}
+     * @memberof OrderApprovalsResponse
+     */
+    NextToken?: string;
+    /**
+     * List of OrderItemApprovals.
+     * @type {Array<OrderItemApprovals>}
+     * @memberof OrderApprovalsResponse
+     */
+    OrderItemsApprovalsList: Array<OrderItemApprovals>;
 }
 /**
  * Buyer information for an order.
@@ -1143,7 +1631,7 @@ export interface OrderItem {
      * @type {string}
      * @memberof OrderItem
      */
-    DeemedResellerCategory?: OrderItemDeemedResellerCategoryEnum | 'IOSS' | 'UOSS';
+    DeemedResellerCategory?: OrderItemDeemedResellerCategoryEnum;
     /**
      * 
      * @type {ItemBuyerInfo}
@@ -1156,6 +1644,18 @@ export interface OrderItem {
      * @memberof OrderItem
      */
     BuyerRequestedCancel?: BuyerRequestedCancel;
+    /**
+     * 
+     * @type {ItemApprovalContext}
+     * @memberof OrderItem
+     */
+    ItemApprovalContext?: ItemApprovalContext;
+    /**
+     * A list of serial numbers for electronic products that are shipped to customers. Returned for FBA orders only.
+     * @type {Array<string>}
+     * @memberof OrderItem
+     */
+    SerialNumbers?: Array<string>;
 }
 
 /**
@@ -1167,6 +1667,56 @@ export enum OrderItemDeemedResellerCategoryEnum {
     Uoss = 'UOSS'
 }
 
+/**
+ * Order item apecific approval request.
+ * @export
+ * @interface OrderItemApprovalRequest
+ */
+export interface OrderItemApprovalRequest {
+    /**
+     * The unique identifier of the order item.
+     * @type {string}
+     * @memberof OrderItemApprovalRequest
+     */
+    OrderItemId: string;
+    /**
+     * 
+     * @type {ItemApprovalAction}
+     * @memberof OrderItemApprovalRequest
+     */
+    ApprovalAction: ItemApprovalAction;
+}
+/**
+ * List of item approvals gathered during the approval process.
+ * @export
+ * @interface OrderItemApprovals
+ */
+export interface OrderItemApprovals {
+    /**
+     * The unique identifier of the order item.
+     * @type {string}
+     * @memberof OrderItemApprovals
+     */
+    OrderItemId: string;
+    /**
+     * 
+     * @type {ItemApprovalType}
+     * @memberof OrderItemApprovals
+     */
+    ApprovalType: ItemApprovalType;
+    /**
+     * 
+     * @type {ItemApprovalStatus}
+     * @memberof OrderItemApprovals
+     */
+    ApprovalStatus: ItemApprovalStatus;
+    /**
+     * 
+     * @type {Array<ItemApproval>}
+     * @memberof OrderItemApprovals
+     */
+    ItemApprovals: Array<ItemApproval>;
+}
 /**
  * A single order item\'s buyer information.
  * @export
@@ -1323,6 +1873,72 @@ export interface OrdersList {
     CreatedBefore?: string;
 }
 /**
+ * Miscellaneous delivery attributes associated with the shipping address.
+ * @export
+ * @enum {string}
+ */
+export enum OtherDeliveryAttributes {
+    HasAccessPoint = 'HAS_ACCESS_POINT',
+    PalletEnabled = 'PALLET_ENABLED',
+    PalletDisabled = 'PALLET_DISABLED'
+}
+
+/**
+ * Properties of packages
+ * @export
+ * @interface PackageDetail
+ */
+export interface PackageDetail {
+    /**
+     * A seller-supplied identifier that uniquely identifies a package within the scope of an order. Only positive numeric values are supported.
+     * @type {string}
+     * @memberof PackageDetail
+     */
+    packageReferenceId: string;
+    /**
+     * Identifies the carrier that will deliver the package. This field is required for all marketplaces, see [reference](https://developer-docs.amazon.com/sp-api/changelog/carriercode-value-required-in-shipment-confirmations-for-br-mx-ca-sg-au-in-jp-marketplaces).
+     * @type {string}
+     * @memberof PackageDetail
+     */
+    carrierCode: string;
+    /**
+     * Carrier Name that will deliver the package. Required when carrierCode is \"Others\" 
+     * @type {string}
+     * @memberof PackageDetail
+     */
+    carrierName?: string;
+    /**
+     * Ship method to be used for shipping the order.
+     * @type {string}
+     * @memberof PackageDetail
+     */
+    shippingMethod?: string;
+    /**
+     * The tracking number used to obtain tracking and delivery information.
+     * @type {string}
+     * @memberof PackageDetail
+     */
+    trackingNumber: string;
+    /**
+     * The shipping date for the package. Must be in ISO-8601 date/time format.
+     * @type {string}
+     * @memberof PackageDetail
+     */
+    shipDate: string;
+    /**
+     * The unique identifier of the supply source.
+     * @type {string}
+     * @memberof PackageDetail
+     */
+    shipFromSupplySourceId?: string;
+    /**
+     * A list of order items.
+     * @type {Array<ConfirmShipmentOrderItem>}
+     * @memberof PackageDetail
+     */
+    orderItems: Array<ConfirmShipmentOrderItem>;
+}
+/**
  * Information about a sub-payment method used to pay for a COD order.
  * @export
  * @interface PaymentExecutionDetailItem
@@ -1359,6 +1975,25 @@ export interface PointsGrantedDetail {
      * @memberof PointsGrantedDetail
      */
     PointsMonetaryValue?: Money;
+}
+/**
+ * The time window when the delivery is preferred.
+ * @export
+ * @interface PreferredDeliveryTime
+ */
+export interface PreferredDeliveryTime {
+    /**
+     * Business hours when the business is open for deliveries.
+     * @type {Array<BusinessHours>}
+     * @memberof PreferredDeliveryTime
+     */
+    BusinessHours?: Array<BusinessHours>;
+    /**
+     * Dates when the business is closed in the next 30 days.
+     * @type {Array<ExceptionDates>}
+     * @memberof PreferredDeliveryTime
+     */
+    ExceptionDates?: Array<ExceptionDates>;
 }
 /**
  * Product information on the number of items.
@@ -1409,7 +2044,7 @@ export interface RegulatedInformationField {
      * @type {string}
      * @memberof RegulatedInformationField
      */
-    FieldType: RegulatedInformationFieldFieldTypeEnum | 'Text' | 'FileAttachment';
+    FieldType: RegulatedInformationFieldFieldTypeEnum;
     /**
      * The content of the field as collected in regulatory form. Note that FileAttachment type fields will contain a URL to download the attachment here.
      * @type {string}
@@ -1438,7 +2073,7 @@ export interface RegulatedOrderVerificationStatus {
      * @type {VerificationStatus}
      * @memberof RegulatedOrderVerificationStatus
      */
-    Status: VerificationStatus | 'Pending' | 'Approved' | 'Rejected' | 'Expired' | 'Cancelled';
+    Status: VerificationStatus;
     /**
      * When true, the regulated information provided in the order requires a review by the merchant.
      * @type {boolean}
@@ -1530,13 +2165,13 @@ export interface TaxCollection {
      * @type {string}
      * @memberof TaxCollection
      */
-    Model?: TaxCollectionModelEnum | 'MarketplaceFacilitator';
+    Model?: TaxCollectionModelEnum;
     /**
      * The party responsible for withholding the taxes and remitting them to the taxing authority.
      * @type {string}
      * @memberof TaxCollection
      */
-    ResponsibleParty?: TaxCollectionResponsiblePartyEnum | 'Amazon Services, Inc.';
+    ResponsibleParty?: TaxCollectionResponsiblePartyEnum;
 }
 
 /**
@@ -1554,6 +2189,38 @@ export enum TaxCollectionResponsiblePartyEnum {
     AmazonServicesInc = 'Amazon Services, Inc.'
 }
 
+/**
+ * The error response schema for the updateOrderItemsApprovals operation.
+ * @export
+ * @interface UpdateItemsApprovalsErrorResponse
+ */
+export interface UpdateItemsApprovalsErrorResponse {
+    /**
+     * A list of error responses returned when a request is unsuccessful.
+     * @type {Array<Error>}
+     * @memberof UpdateItemsApprovalsErrorResponse
+     */
+    errors?: Array<Error>;
+}
+/**
+ * The request body for the updateOrderItemsApprovals operation.
+ * @export
+ * @interface UpdateOrderApprovalsRequest
+ */
+export interface UpdateOrderApprovalsRequest {
+    /**
+     * Person or system that triggers the approval actions on behalf of the actor.
+     * @type {string}
+     * @memberof UpdateOrderApprovalsRequest
+     */
+    Approver?: string;
+    /**
+     * A list of item approval requests.
+     * @type {Array<OrderItemApprovalRequest>}
+     * @memberof UpdateOrderApprovalsRequest
+     */
+    OrderItemsApprovalRequests: Array<OrderItemApprovalRequest>;
+}
 /**
  * The error response schema for the UpdateShipmentStatus operation.
  * @export
@@ -1584,7 +2251,7 @@ export interface UpdateShipmentStatusRequest {
      * @type {ShipmentStatus}
      * @memberof UpdateShipmentStatusRequest
      */
-    shipmentStatus: ShipmentStatus | 'ReadyForPickup' | 'PickedUp' | 'RefusedPickup';
+    shipmentStatus: ShipmentStatus;
     /**
      * For partial shipment status updates, the list of order items and quantities to be updated.
      * @type {Array<object>}
@@ -1629,7 +2296,7 @@ export interface UpdateVerificationStatusRequestBody {
      * @type {VerificationStatus}
      * @memberof UpdateVerificationStatusRequestBody
      */
-    status: VerificationStatus | 'Pending' | 'Approved' | 'Rejected' | 'Expired' | 'Cancelled';
+    status: VerificationStatus;
     /**
      * The identifier for the order\'s regulated information reviewer.
      * @type {string}
@@ -1658,11 +2325,299 @@ export enum VerificationStatus {
 
 
 /**
+ * ApprovalsApi - axios parameter creator
+ * @export
+ */
+export const ApprovalsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Returns detailed order items approvals information for the order specified. If NextToken is provided, it\'s used to retrieve the next page of order items approvals.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.5 | 30 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format, e.g. 933-1671587-0818628.
+         * @param {string} [nextToken] A string token returned in the response of your previous request.
+         * @param {Array<ItemApprovalType>} [itemApprovalTypes] When set, only return approvals for items which approval type is contained in the specified approval types.
+         * @param {Array<ItemApprovalStatus>} [itemApprovalStatus] When set, only return approvals that contain items which approval status is contained in the specified approval status.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getOrderItemsApprovals: async (orderId: string, nextToken?: string, itemApprovalTypes?: Array<ItemApprovalType>, itemApprovalStatus?: Array<ItemApprovalStatus>, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'orderId' is not null or undefined
+            assertParamExists('getOrderItemsApprovals', 'orderId', orderId)
+            const localVarPath = `/orders/v0/orders/{orderId}/approvals`
+                .replace(`{${"orderId"}}`, encodeURIComponent(String(orderId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (nextToken !== undefined) {
+                localVarQueryParameter['NextToken'] = nextToken;
+            }
+
+            if (itemApprovalTypes) {
+                localVarQueryParameter['ItemApprovalTypes'] = itemApprovalTypes.join(COLLECTION_FORMATS.csv);
+            }
+
+            if (itemApprovalStatus) {
+                localVarQueryParameter['ItemApprovalStatus'] = itemApprovalStatus.join(COLLECTION_FORMATS.csv);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Update the order items approvals for an order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
+         * @param {UpdateOrderApprovalsRequest} payload The request body for the updateOrderItemsApprovals operation.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateOrderItemsApprovals: async (orderId: string, payload: UpdateOrderApprovalsRequest, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'orderId' is not null or undefined
+            assertParamExists('updateOrderItemsApprovals', 'orderId', orderId)
+            // verify required parameter 'payload' is not null or undefined
+            assertParamExists('updateOrderItemsApprovals', 'payload', payload)
+            const localVarPath = `/orders/v0/orders/{orderId}/approvals`
+                .replace(`{${"orderId"}}`, encodeURIComponent(String(orderId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(payload, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * ApprovalsApi - functional programming interface
+ * @export
+ */
+export const ApprovalsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ApprovalsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Returns detailed order items approvals information for the order specified. If NextToken is provided, it\'s used to retrieve the next page of order items approvals.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.5 | 30 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format, e.g. 933-1671587-0818628.
+         * @param {string} [nextToken] A string token returned in the response of your previous request.
+         * @param {Array<ItemApprovalType>} [itemApprovalTypes] When set, only return approvals for items which approval type is contained in the specified approval types.
+         * @param {Array<ItemApprovalStatus>} [itemApprovalStatus] When set, only return approvals that contain items which approval status is contained in the specified approval status.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getOrderItemsApprovals(orderId: string, nextToken?: string, itemApprovalTypes?: Array<ItemApprovalType>, itemApprovalStatus?: Array<ItemApprovalStatus>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrderApprovalsResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getOrderItemsApprovals(orderId, nextToken, itemApprovalTypes, itemApprovalStatus, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Update the order items approvals for an order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
+         * @param {UpdateOrderApprovalsRequest} payload The request body for the updateOrderItemsApprovals operation.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateOrderItemsApprovals(orderId: string, payload: UpdateOrderApprovalsRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateOrderItemsApprovals(orderId, payload, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * ApprovalsApi - factory interface
+ * @export
+ */
+export const ApprovalsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ApprovalsApiFp(configuration)
+    return {
+        /**
+         * Returns detailed order items approvals information for the order specified. If NextToken is provided, it\'s used to retrieve the next page of order items approvals.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.5 | 30 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+         * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format, e.g. 933-1671587-0818628.
+         * @param {string} [nextToken] A string token returned in the response of your previous request.
+         * @param {Array<ItemApprovalType>} [itemApprovalTypes] When set, only return approvals for items which approval type is contained in the specified approval types.
+         * @param {Array<ItemApprovalStatus>} [itemApprovalStatus] When set, only return approvals that contain items which approval status is contained in the specified approval status.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getOrderItemsApprovals(orderId: string, nextToken?: string, itemApprovalTypes?: Array<ItemApprovalType>, itemApprovalStatus?: Array<ItemApprovalStatus>, options?: any): AxiosPromise<GetOrderApprovalsResponse> {
+            return localVarFp.getOrderItemsApprovals(orderId, nextToken, itemApprovalTypes, itemApprovalStatus, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Update the order items approvals for an order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
+         * @param {UpdateOrderApprovalsRequest} payload The request body for the updateOrderItemsApprovals operation.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateOrderItemsApprovals(orderId: string, payload: UpdateOrderApprovalsRequest, options?: any): AxiosPromise<void> {
+            return localVarFp.updateOrderItemsApprovals(orderId, payload, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * Request parameters for getOrderItemsApprovals operation in ApprovalsApi.
+ * @export
+ * @interface ApprovalsApiGetOrderItemsApprovalsRequest
+ */
+export interface ApprovalsApiGetOrderItemsApprovalsRequest {
+    /**
+     * An Amazon-defined order identifier, in 3-7-7 format, e.g. 933-1671587-0818628.
+     * @type {string}
+     * @memberof ApprovalsApiGetOrderItemsApprovals
+     */
+    readonly orderId: string
+
+    /**
+     * A string token returned in the response of your previous request.
+     * @type {string}
+     * @memberof ApprovalsApiGetOrderItemsApprovals
+     */
+    readonly nextToken?: string
+
+    /**
+     * When set, only return approvals for items which approval type is contained in the specified approval types.
+     * @type {Array<ItemApprovalType>}
+     * @memberof ApprovalsApiGetOrderItemsApprovals
+     */
+    readonly itemApprovalTypes?: Array<ItemApprovalType>
+
+    /**
+     * When set, only return approvals that contain items which approval status is contained in the specified approval status.
+     * @type {Array<ItemApprovalStatus>}
+     * @memberof ApprovalsApiGetOrderItemsApprovals
+     */
+    readonly itemApprovalStatus?: Array<ItemApprovalStatus>
+}
+
+/**
+ * Request parameters for updateOrderItemsApprovals operation in ApprovalsApi.
+ * @export
+ * @interface ApprovalsApiUpdateOrderItemsApprovalsRequest
+ */
+export interface ApprovalsApiUpdateOrderItemsApprovalsRequest {
+    /**
+     * An Amazon-defined order identifier, in 3-7-7 format.
+     * @type {string}
+     * @memberof ApprovalsApiUpdateOrderItemsApprovals
+     */
+    readonly orderId: string
+
+    /**
+     * The request body for the updateOrderItemsApprovals operation.
+     * @type {UpdateOrderApprovalsRequest}
+     * @memberof ApprovalsApiUpdateOrderItemsApprovals
+     */
+    readonly payload: UpdateOrderApprovalsRequest
+}
+
+/**
+ * ApprovalsApi - object-oriented interface
+ * @export
+ * @class ApprovalsApi
+ * @extends {BaseAPI}
+ */
+export class ApprovalsApi extends BaseAPI {
+    /**
+     * Returns detailed order items approvals information for the order specified. If NextToken is provided, it\'s used to retrieve the next page of order items approvals.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 0.5 | 30 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see \"Usage Plans and Rate Limits\" in the Selling Partner API documentation.
+     * @param {ApprovalsApiGetOrderItemsApprovalsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ApprovalsApi
+     */
+    public getOrderItemsApprovals(requestParameters: ApprovalsApiGetOrderItemsApprovalsRequest, options?: any) {
+        return ApprovalsApiFp(this.configuration).getOrderItemsApprovals(requestParameters.orderId, requestParameters.nextToken, requestParameters.itemApprovalTypes, requestParameters.itemApprovalStatus, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Update the order items approvals for an order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 5 | 15 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+     * @param {ApprovalsApiUpdateOrderItemsApprovalsRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ApprovalsApi
+     */
+    public updateOrderItemsApprovals(requestParameters: ApprovalsApiUpdateOrderItemsApprovalsRequest, options?: any) {
+        return ApprovalsApiFp(this.configuration).updateOrderItemsApprovals(requestParameters.orderId, requestParameters.payload, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
  * OrdersV0Api - axios parameter creator
  * @export
  */
 export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * Updates the shipment confirmation status for a specified order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
+         * @param {ConfirmShipmentRequest} payload Request body of confirmShipment.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        confirmShipment: async (orderId: string, payload: ConfirmShipmentRequest, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'orderId' is not null or undefined
+            assertParamExists('confirmShipment', 'orderId', orderId)
+            // verify required parameter 'payload' is not null or undefined
+            assertParamExists('confirmShipment', 'payload', payload)
+            const localVarPath = `/orders/v0/orders/{orderId}/shipmentConfirmation`
+                .replace(`{${"orderId"}}`, encodeURIComponent(String(orderId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(payload, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * Returns the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
@@ -1891,10 +2846,12 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
          * @param {string} [actualFulfillmentSupplySourceId] Denotes the recommended sourceId where the order should be fulfilled from.
          * @param {boolean} [isISPU] When true, this order is marked to be picked up from a store rather than delivered.
          * @param {string} [storeChainStoreId] The store chain store identifier. Linked to a specific store in a store chain.
+         * @param {Array<ItemApprovalType>} [itemApprovalTypes] When set, only return orders that contain items which approval type is contained in the specified approval types.
+         * @param {Array<ItemApprovalStatus>} [itemApprovalStatus] When set, only return orders that contain items which approval status is contained in the specified approval status.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrders: async (marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, electronicInvoiceStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, actualFulfillmentSupplySourceId?: string, isISPU?: boolean, storeChainStoreId?: string, options: any = {}): Promise<RequestArgs> => {
+        getOrders: async (marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, electronicInvoiceStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, actualFulfillmentSupplySourceId?: string, isISPU?: boolean, storeChainStoreId?: string, itemApprovalTypes?: Array<ItemApprovalType>, itemApprovalStatus?: Array<ItemApprovalStatus>, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'marketplaceIds' is not null or undefined
             assertParamExists('getOrders', 'marketplaceIds', marketplaceIds)
             const localVarPath = `/orders/v0/orders`;
@@ -1981,6 +2938,14 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
                 localVarQueryParameter['StoreChainStoreId'] = storeChainStoreId;
             }
 
+            if (itemApprovalTypes) {
+                localVarQueryParameter['ItemApprovalTypes'] = itemApprovalTypes.join(COLLECTION_FORMATS.csv);
+            }
+
+            if (itemApprovalStatus) {
+                localVarQueryParameter['ItemApprovalStatus'] = itemApprovalStatus.join(COLLECTION_FORMATS.csv);
+            }
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter, options.query);
@@ -2041,6 +3006,17 @@ export const OrdersV0ApiAxiosParamCreator = function (configuration?: Configurat
 export const OrdersV0ApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = OrdersV0ApiAxiosParamCreator(configuration)
     return {
+        /**
+         * Updates the shipment confirmation status for a specified order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
+         * @param {ConfirmShipmentRequest} payload Request body of confirmShipment.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async confirmShipment(orderId: string, payload: ConfirmShipmentRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.confirmShipment(orderId, payload, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
         /**
          * Returns the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
@@ -2123,11 +3099,13 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
          * @param {string} [actualFulfillmentSupplySourceId] Denotes the recommended sourceId where the order should be fulfilled from.
          * @param {boolean} [isISPU] When true, this order is marked to be picked up from a store rather than delivered.
          * @param {string} [storeChainStoreId] The store chain store identifier. Linked to a specific store in a store chain.
+         * @param {Array<ItemApprovalType>} [itemApprovalTypes] When set, only return orders that contain items which approval type is contained in the specified approval types.
+         * @param {Array<ItemApprovalStatus>} [itemApprovalStatus] When set, only return orders that contain items which approval status is contained in the specified approval status.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getOrders(marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, electronicInvoiceStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, actualFulfillmentSupplySourceId?: string, isISPU?: boolean, storeChainStoreId?: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrdersResponse>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getOrders(marketplaceIds, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, orderStatuses, fulfillmentChannels, paymentMethods, buyerEmail, sellerOrderId, maxResultsPerPage, easyShipShipmentStatuses, electronicInvoiceStatuses, nextToken, amazonOrderIds, actualFulfillmentSupplySourceId, isISPU, storeChainStoreId, options);
+        async getOrders(marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, electronicInvoiceStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, actualFulfillmentSupplySourceId?: string, isISPU?: boolean, storeChainStoreId?: string, itemApprovalTypes?: Array<ItemApprovalType>, itemApprovalStatus?: Array<ItemApprovalStatus>, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetOrdersResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getOrders(marketplaceIds, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, orderStatuses, fulfillmentChannels, paymentMethods, buyerEmail, sellerOrderId, maxResultsPerPage, easyShipShipmentStatuses, electronicInvoiceStatuses, nextToken, amazonOrderIds, actualFulfillmentSupplySourceId, isISPU, storeChainStoreId, itemApprovalTypes, itemApprovalStatus, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -2151,6 +3129,16 @@ export const OrdersV0ApiFp = function(configuration?: Configuration) {
 export const OrdersV0ApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = OrdersV0ApiFp(configuration)
     return {
+        /**
+         * Updates the shipment confirmation status for a specified order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+         * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
+         * @param {ConfirmShipmentRequest} payload Request body of confirmShipment.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        confirmShipment(orderId: string, payload: ConfirmShipmentRequest, options?: any): AxiosPromise<void> {
+            return localVarFp.confirmShipment(orderId, payload, options).then((request) => request(axios, basePath));
+        },
         /**
          * Returns the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
          * @param {string} orderId An Amazon-defined order identifier, in 3-7-7 format.
@@ -2227,11 +3215,13 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
          * @param {string} [actualFulfillmentSupplySourceId] Denotes the recommended sourceId where the order should be fulfilled from.
          * @param {boolean} [isISPU] When true, this order is marked to be picked up from a store rather than delivered.
          * @param {string} [storeChainStoreId] The store chain store identifier. Linked to a specific store in a store chain.
+         * @param {Array<ItemApprovalType>} [itemApprovalTypes] When set, only return orders that contain items which approval type is contained in the specified approval types.
+         * @param {Array<ItemApprovalStatus>} [itemApprovalStatus] When set, only return orders that contain items which approval status is contained in the specified approval status.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrders(marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, electronicInvoiceStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, actualFulfillmentSupplySourceId?: string, isISPU?: boolean, storeChainStoreId?: string, options?: any): AxiosPromise<GetOrdersResponse> {
-            return localVarFp.getOrders(marketplaceIds, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, orderStatuses, fulfillmentChannels, paymentMethods, buyerEmail, sellerOrderId, maxResultsPerPage, easyShipShipmentStatuses, electronicInvoiceStatuses, nextToken, amazonOrderIds, actualFulfillmentSupplySourceId, isISPU, storeChainStoreId, options).then((request) => request(axios, basePath));
+        getOrders(marketplaceIds: Array<string>, createdAfter?: string, createdBefore?: string, lastUpdatedAfter?: string, lastUpdatedBefore?: string, orderStatuses?: Array<string>, fulfillmentChannels?: Array<string>, paymentMethods?: Array<string>, buyerEmail?: string, sellerOrderId?: string, maxResultsPerPage?: number, easyShipShipmentStatuses?: Array<string>, electronicInvoiceStatuses?: Array<string>, nextToken?: string, amazonOrderIds?: Array<string>, actualFulfillmentSupplySourceId?: string, isISPU?: boolean, storeChainStoreId?: string, itemApprovalTypes?: Array<ItemApprovalType>, itemApprovalStatus?: Array<ItemApprovalStatus>, options?: any): AxiosPromise<GetOrdersResponse> {
+            return localVarFp.getOrders(marketplaceIds, createdAfter, createdBefore, lastUpdatedAfter, lastUpdatedBefore, orderStatuses, fulfillmentChannels, paymentMethods, buyerEmail, sellerOrderId, maxResultsPerPage, easyShipShipmentStatuses, electronicInvoiceStatuses, nextToken, amazonOrderIds, actualFulfillmentSupplySourceId, isISPU, storeChainStoreId, itemApprovalTypes, itemApprovalStatus, options).then((request) => request(axios, basePath));
         },
         /**
          * Updates (approves or rejects) the verification status of an order containing regulated products.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.5 | 30 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
@@ -2245,6 +3235,27 @@ export const OrdersV0ApiFactory = function (configuration?: Configuration, baseP
         },
     };
 };
+
+/**
+ * Request parameters for confirmShipment operation in OrdersV0Api.
+ * @export
+ * @interface OrdersV0ApiConfirmShipmentRequest
+ */
+export interface OrdersV0ApiConfirmShipmentRequest {
+    /**
+     * An Amazon-defined order identifier, in 3-7-7 format.
+     * @type {string}
+     * @memberof OrdersV0ApiConfirmShipment
+     */
+    readonly orderId: string
+
+    /**
+     * Request body of confirmShipment.
+     * @type {ConfirmShipmentRequest}
+     * @memberof OrdersV0ApiConfirmShipment
+     */
+    readonly payload: ConfirmShipmentRequest
+}
 
 /**
  * Request parameters for getOrder operation in OrdersV0Api.
@@ -2475,6 +3486,20 @@ export interface OrdersV0ApiGetOrdersRequest {
      * @memberof OrdersV0ApiGetOrders
      */
     readonly storeChainStoreId?: string
+
+    /**
+     * When set, only return orders that contain items which approval type is contained in the specified approval types.
+     * @type {Array<ItemApprovalType>}
+     * @memberof OrdersV0ApiGetOrders
+     */
+    readonly itemApprovalTypes?: Array<ItemApprovalType>
+
+    /**
+     * When set, only return orders that contain items which approval status is contained in the specified approval status.
+     * @type {Array<ItemApprovalStatus>}
+     * @memberof OrdersV0ApiGetOrders
+     */
+    readonly itemApprovalStatus?: Array<ItemApprovalStatus>
 }
 
 /**
@@ -2505,6 +3530,17 @@ export interface OrdersV0ApiUpdateVerificationStatusRequest {
  * @extends {BaseAPI}
  */
 export class OrdersV0Api extends BaseAPI {
+    /**
+     * Updates the shipment confirmation status for a specified order.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 2 | 10 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
+     * @param {OrdersV0ApiConfirmShipmentRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OrdersV0Api
+     */
+    public confirmShipment(requestParameters: OrdersV0ApiConfirmShipmentRequest, options?: any) {
+        return OrdersV0ApiFp(this.configuration).confirmShipment(requestParameters.orderId, requestParameters.payload, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * Returns the order that you specify.  **Usage Plan:**  | Rate (requests per second) | Burst | | ---- | ---- | | 0.0167 | 20 |  The `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values then those shown here. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
      * @param {OrdersV0ApiGetOrderRequest} requestParameters Request parameters.
@@ -2579,7 +3615,7 @@ export class OrdersV0Api extends BaseAPI {
      * @memberof OrdersV0Api
      */
     public getOrders(requestParameters: OrdersV0ApiGetOrdersRequest, options?: any) {
-        return OrdersV0ApiFp(this.configuration).getOrders(requestParameters.marketplaceIds, requestParameters.createdAfter, requestParameters.createdBefore, requestParameters.lastUpdatedAfter, requestParameters.lastUpdatedBefore, requestParameters.orderStatuses, requestParameters.fulfillmentChannels, requestParameters.paymentMethods, requestParameters.buyerEmail, requestParameters.sellerOrderId, requestParameters.maxResultsPerPage, requestParameters.easyShipShipmentStatuses, requestParameters.electronicInvoiceStatuses, requestParameters.nextToken, requestParameters.amazonOrderIds, requestParameters.actualFulfillmentSupplySourceId, requestParameters.isISPU, requestParameters.storeChainStoreId, options).then((request) => request(this.axios, this.basePath));
+        return OrdersV0ApiFp(this.configuration).getOrders(requestParameters.marketplaceIds, requestParameters.createdAfter, requestParameters.createdBefore, requestParameters.lastUpdatedAfter, requestParameters.lastUpdatedBefore, requestParameters.orderStatuses, requestParameters.fulfillmentChannels, requestParameters.paymentMethods, requestParameters.buyerEmail, requestParameters.sellerOrderId, requestParameters.maxResultsPerPage, requestParameters.easyShipShipmentStatuses, requestParameters.electronicInvoiceStatuses, requestParameters.nextToken, requestParameters.amazonOrderIds, requestParameters.actualFulfillmentSupplySourceId, requestParameters.isISPU, requestParameters.storeChainStoreId, requestParameters.itemApprovalTypes, requestParameters.itemApprovalStatus, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
